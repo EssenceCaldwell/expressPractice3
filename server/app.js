@@ -10,7 +10,10 @@ app.use(express.json());
  *     Route: /version
  *     Response: 1.0.0
  */
-// Your code here
+
+app.get('/version', (req, res) => {
+    res.send('1.0.0');
+});
 
 /**
  *  Basic Phase 2 - Route param and JSON response
@@ -23,7 +26,21 @@ app.use(express.json());
  *  Hint: Use your name, birthdate and favorite movies (as strings in the code)
  *  combined with the id sent as a route parameter in the url
  */
-// Your code here
+
+app.get('/viewers/:id', (req, res) => {
+    const id = req.params.id;
+    const obj = {
+        id: id,
+        firstName: 'Aurora',
+        lastName: 'Ignacio',
+        birthdate: '10/28/99',
+        favoriteMovies: [
+            'Avatar: Way of Water',
+            "She's the Man"
+        ]
+    }
+    res.json(obj);
+});
 
 /** Basic Phase 3 - Query params in URL
  *      Method: GET
@@ -42,7 +59,12 @@ app.use(express.json());
  *          message required
  *          message required
  */
-// Your code here
+
+app.get('/info', (req, res) => {
+    const msg = req.query.message;
+    if (msg) res.send(msg);
+    else res.send("message required");
+});
 
 /**
  *  IMPORTANT: Scroll to the top for basic phases.
@@ -76,7 +98,19 @@ app.use(express.json());
  *      Alternate response object:
  *          {"id":98765432,"name":"Honey Sweet","year":1967,"isFavorite":false}
  */
-// Your code here
+
+app.post('/movies', (req, res) => {
+    let reqBody = req.body;
+    let isFavorite = false;
+    if (reqBody.favorite) isFavorite = true;
+    let resBody = {
+        id: Math.random(),
+        name: reqBody.name,
+        year: Number(reqBody.year),
+        isFavorite: isFavorite
+    }
+    res.json(resBody);
+});
 
 /**
  *  Advanced Bonus Phase B - Research how to return static
@@ -93,8 +127,9 @@ app.use(express.json());
  *
  *      Test route: /logo.png
  */
-// Your code here
+
+
 
 // DO NOT EDIT - Set port and listener
-const port = 5000;
+const port = 3000;
 app.listen(port, () => console.log('Server is listening on port', port));
